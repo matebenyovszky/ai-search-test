@@ -1,0 +1,18 @@
+[
+  {
+    "id": "robohorizon-en",
+    "search_query": "latest humanoid robotics open model research release official NVIDIA Figure",
+    "query": "Write a 3-paragraph US English RoboHorizon news article about a recent verifiable humanoid robotics AI/model release. Use concise technical journalism, restrained dry humor, concrete names, dates and numbers. Do not invent benchmark results or prices. Prefer official announcements and original papers. Include relevant verified GitHub, arXiv and Hugging Face resource links naturally. Only return the article, no greeting, commentary, numbered citations or bibliography. If the evidence cannot support a recent story, explicitly say so rather than inventing one."
+  },
+  {
+    "id": "robohorizon-hu",
+    "search_query": "latest humanoid robotics open model research release official NVIDIA Figure",
+    "query": "Írj 3 bekezdéses magyar RoboHorizon-hírt egy friss, ellenőrizhető humanoidrobotikai AI- vagy modellbejelentésről. Tömör szakújságírói stílus, visszafogott száraz humor, konkrét nevek, dátumok és adatok. Ne találj ki benchmarkot, árat vagy tényt. Elsődleges forrásokat használj, és természetesen linkeld a releváns hivatalos GitHub-, arXiv- és Hugging Face-oldalakat. Csak a cikket add, beköszönés, kommentár, számozott hivatkozás és forrásjegyzék nélkül. Ha a forrásanyag nem támaszt alá friss hírt, jelezd ezt ahelyett, hogy kitalálnál egyet."
+  },
+  {
+    "id": "offers-hu",
+    "search_query": "iPhone 17 256GB ár Ft arukereso olcsobbat",
+    "query": "Find the 3 cheapest currently verifiable iPhone 17 256GB offers in Hungary, in HUF. Give seller names, exact product variants, prices and direct offer URLs. Exclude unavailable items and offers that cannot be verified. Do not guess prices.",
+    "json_structure": true
+  }
+]

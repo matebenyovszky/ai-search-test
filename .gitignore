@@ -1,0 +1,15 @@
+.env
+.pyc
+.pytest_cache
+.vscode
+.idea
+.git
+/__pycache__
+__pycache__/
+*.py[cod]
+*.log
+.venv
+/results/
+/.benchmark-backup/
+.env.*
+!.env.example

@@ -1,0 +1,53 @@
+{
+  "verified_at": "2026-11-01",
+  "notes": "Answer keys are for evaluation only. Never include expected, source URLs, titles or traps in model prompts. Refresh dated cases before daily use. These cases were not published today; use --max-source-age-days 0 with independently verified same-day replacements to test same-day discovery.",
+  "cases": [
+    {
+      "id": "motionbricks-release-typo",
+      "enabled": true,
+      "kind": "fresh",
+      "input": "nvida motionbriks soma g1 new weigths",
+      "input_variants": {"hu":"nvida motionbriks soma g1 új sulyok", "ja":"nvida motionbriks soma g1 新ウェイト"},
+      "published_at": "2026-10-27",
+      "expected": {
+        "target": "NVIDIA MotionBricks update adding SOMA human models alongside Unitree G1",
+        "keyword_groups": [["MotionBricks"], ["SOMA"], ["G1"]],
+        "primary_urls": ["https://developer.nvidia.com/blog/nvidia-rtx-spark-powers-neural-rendering-and-ai-characters-in-games", "https://github.com/NVlabs/motionbricks", "https://huggingface.co/nvidia/MotionBricks"],
+        "event_date_note": "The Oct 27 NVIDIA blog is the current update, not the original July 2026 SIGGRAPH paper. A page update date is not necessarily the model's original release date.",
+        "traps": ["Do not replace the story with GR00T N1/N1.7", "Distinguish the recent SOMA/checkpoint release from the original research paper", "The Unreal Engine research demo integration is not included in this release", "Model license permits commercial use subject to NVIDIA Open Model Agreement; do not call it Apache-licensed weights"],
+        "source_checked_at": "2026-11-01"
+      }
+    },
+    {
+      "id": "crowdbricks-batching-typo",
+      "enabled": true,
+      "kind": "fresh",
+      "input": "crowdbriks rehan 10k 4090 batcing motion bricks",
+      "published_at": "2026-10-27",
+      "expected": {
+        "target": "patch-gg/crowdbricks community batched TensorRT runtime for NVIDIA MotionBricks",
+        "keyword_groups": [["crowdbricks", "crowd bricks"], ["MotionBricks"], ["4090"]],
+        "primary_urls": ["https://github.com/patch-gg/crowdbricks"],
+        "dated_source": "https://github.com/patch-gg/crowdbricks/commit/bf8f682affe1e2637ba64fbe333aa51cf772ee85",
+        "event_date_note": "Repository's initial commit: 2026-10-27. Benchmark figures are the creator's measurements, not independent verification.",
+        "traps": ["Do not attribute the community batching runtime to NVIDIA as its own release", "Do not confuse approximately 10k batched generations/second with the upstream model's frame rate", "The README reports a batch of 48, 4.66 ms wall time and 10,307 generations/s on RTX 4090 FP16; preserve units and measurement conditions"],
+        "source_checked_at": "2026-11-01"
+      }
+    },
+    {
+      "id": "legacy-rek-typo-2025",
+      "enabled": false,
+      "kind": "historical",
+      "input": "Latest REK fight in San fransico VR Unitree bots",
+      "context": "This is an archived 2025 test input. Identify the original 2025 story, not a later event with the same organizer.",
+      "expected": {
+        "target": "The 2025 inaugural REK underground robot cage fight covered by RoboHorizon",
+        "keyword_groups": [["REK"], ["Unitree"], ["Justin Kan"], ["Hyder Amil"]],
+        "primary_urls": ["https://robohorizon.com/en-us/magazine/2025/09/rek0-first-underground-robot-cage-fight/"],
+        "event_date_note": "RoboHorizon report published 2025-09-26; do not equate report publication date with fight date without verification. RoboHorizon is an eyewitness reference for the intended story, not an organizer announcement.",
+        "traps": ["Do not confuse the original Unitree G1 robot-versus-robot match with the 2026 REK store demonstration or human-versus-robot fights", "Do not repeat the old article's UTC typo for UFC", "The archived input intentionally misspells San Francisco"],
+        "source_checked_at": "2026-11-01"
+      }
+    }
+  ]
+}

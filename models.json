@@ -1,0 +1,277 @@
+{
+  "verified_at": "2026-11-01",
+  "notes": "Standard short-context USD per million tokens. Estimates exclude free allowances, taxes, negotiated rates, and discounts. null means unknown, never free. Availability is account-specific; use --discover. Native search rates are per query/tool invocation unless search_unit says grounded_prompt. No automatic model substitutions.",
+  "sources": {
+    "google": "https://ai.google.dev/gemini-api/docs/pricing",
+    "google_legacy": "https://developers.cloudflare.com/ai/models/google/gemini-2.5-pro/",
+    "openai": "https://developers.openai.com/api/docs/pricing",
+    "anthropic": "https://platform.claude.com/docs/en/models/overview",
+    "anthropic_search": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool",
+    "perplexity": "https://docs.perplexity.ai/docs/agent-api/models",
+    "perplexity_search": "https://docs.perplexity.ai/docs/getting-started/pricing",
+    "xai": "https://docs.x.ai/developers/pricing",
+    "groq": "https://console.groq.com/docs/models",
+    "cerebras": "https://www.cerebras.ai/pricing",
+    "openrouter": "https://openrouter.ai/collections/free-models",
+    "minimax": "https://platform.minimax.io/docs/pricing/overview",
+    "huggingface": "https://huggingface.co/docs/inference-providers/pricing",
+    "provider_reference": "https://github.com/agenthatchery/hermes-agent/blob/main/website/docs/integrations/providers.md"
+  },
+  "models": {
+    "gemini-2.5-pro": {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "enabled": true,
+      "input": 1.25,
+      "output": 10.0,
+      "cached_input": 0.125,
+      "search_price": 0.035,
+      "search_unit": "grounded_prompt",
+      "access": "paid; RoboHorizon article/social baseline",
+      "long_context": {
+        "threshold": 200000,
+        "input": 2.5,
+        "output": 15,
+        "cached_input": 0.25
+      }
+    },
+    "gemini-3-flash-preview": {
+      "provider": "google",
+      "model": "gemini-3-flash-preview",
+      "enabled": true,
+      "input": 0.5,
+      "output": 3.0,
+      "cached_input": 0.05,
+      "search_price": 0.014,
+      "access": "paid/free quota; RoboHorizon translation baseline"
+    },
+    "gemini-3.1-flash-lite": {
+      "provider": "google",
+      "model": "gemini-3.1-flash-lite",
+      "enabled": true,
+      "input": 0.25,
+      "output": 1.5,
+      "cached_input": 0.025,
+      "search_price": 0.014,
+      "access": "paid/free quota"
+    },
+    "gemini-3.5-flash-lite": {
+      "provider": "google",
+      "model": "gemini-3.5-flash-lite",
+      "enabled": true,
+      "input": 0.3,
+      "output": 2.5,
+      "cached_input": 0.03,
+      "search_price": 0.014,
+      "access": "paid/free quota"
+    },
+    "gemini-3.8-flash": {
+      "provider": "google",
+      "model": "gemini-3.8-flash",
+      "enabled": true,
+      "input": 0.75,
+      "output": 3.75,
+      "cached_input": 0.075,
+      "search_price": 0.014,
+      "prices_after": {
+        "date": "2027-01-01",
+        "input": 1.5,
+        "output": 7.5,
+        "cached_input": 0.15
+      },
+      "access": "paid/free quota; introductory rates through 2026-12-31"
+    },
+    "gemini-4-argon": {
+      "provider": "google",
+      "model": "gemini-4-argon",
+      "enabled": false,
+      "input": 2.0,
+      "output": 10.0,
+      "cached_input": 0.1,
+      "search_price": 0.014,
+      "prices_after": {
+        "date": "2026-12-01",
+        "input": 4.0,
+        "output": 20.0,
+        "cached_input": 0.2
+      },
+      "access": "paid; introductory rates through 2026-11-30"
+    },
+    "openai-gpt-6-luna": {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "enabled": true,
+      "input": 0.1,
+      "output": 0.5,
+      "cached_input": 0.01,
+      "search_price": 0.01,
+      "access": "paid",
+      "long_context": {
+        "threshold": 272000,
+        "input": 0.2,
+        "output": 0.75,
+        "cached_input": 0.02
+      }
+    },
+    "openai-gpt-6.1-terra": {
+      "provider": "openai",
+      "model": "gpt-6.1-terra",
+      "enabled": false,
+      "input": 1.0,
+      "output": 5.0,
+      "cached_input": 0.05,
+      "search_price": 0.01,
+      "access": "paid",
+      "long_context": {
+        "threshold": 272000,
+        "input": 2.0,
+        "output": 7.5,
+        "cached_input": 0.1
+      }
+    },
+    "openai-gpt-6.1-sol": {
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "enabled": false,
+      "input": 2.0,
+      "output": 10.0,
+      "cached_input": 0.1,
+      "search_price": 0.01,
+      "access": "paid",
+      "long_context": {
+        "threshold": 272000,
+        "input": 4.0,
+        "output": 15.0,
+        "cached_input": 0.2
+      }
+    },
+    "anthropic-claude-haiku-5-5": {
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "enabled": true,
+      "input": 0.1,
+      "output": 0.5,
+      "cached_input": 0.01,
+      "search_price": 0.01,
+      "access": "paid; short prompts <=100k tokens",
+      "long_context": {
+        "threshold": 100000,
+        "input": 0.5,
+        "output": 2.5,
+        "cached_input": 0.05
+      }
+    },
+    "anthropic-claude-sonnet-5-5": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "enabled": false,
+      "input": 2.0,
+      "output": 10.0,
+      "cached_input": 0.2,
+      "search_price": 0.01,
+      "access": "paid"
+    },
+    "perplexity-gpt-6-luna": {
+      "provider": "perplexity",
+      "model": "openai/gpt-6-luna",
+      "enabled": true,
+      "input": 0.1,
+      "output": 0.5,
+      "cached_input": 0.01,
+      "search_price": 0.0025,
+      "access": "paid Agent API; replaces legacy Sonar integration",
+      "long_context": {
+        "threshold": 272000,
+        "input": 0.2,
+        "output": 0.75,
+        "cached_input": 0.02
+      }
+    },
+    "perplexity-glm-5.3-flash": {
+      "provider": "perplexity",
+      "model": "perplexity/glm-5.3-flash",
+      "enabled": false,
+      "input": 0.15,
+      "output": 0.5,
+      "cached_input": 0.03,
+      "search_price": 0.0025,
+      "access": "paid Agent API"
+    },
+    "xai-grok-4.7": {
+      "provider": "xai",
+      "model": "grok-4.7",
+      "enabled": false,
+      "input": 2.0,
+      "output": 6.0,
+      "cached_input": 0.5,
+      "search_price": 0.005,
+      "access": "paid Responses API",
+      "long_context": {
+        "threshold": 200000,
+        "inclusive": true,
+        "input": 4,
+        "output": 12,
+        "cached_input": 1
+      }
+    },
+    "groq-gpt-oss-120b": {
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b",
+      "enabled": true,
+      "input": 0.15,
+      "output": 0.6,
+      "access": "free quota or paid; shared/none mode"
+    },
+    "groq-gpt-oss-20b": {
+      "provider": "groq",
+      "model": "openai/gpt-oss-20b",
+      "enabled": false,
+      "input": 0.075,
+      "output": 0.3,
+      "access": "free quota or paid; shared/none mode"
+    },
+    "cerebras-gpt-oss-120b": {
+      "provider": "cerebras",
+      "model": "gpt-oss-120b",
+      "enabled": false,
+      "input": null,
+      "output": null,
+      "access": "account-dependent quota/trial/paid; pricing unknown; shared/none mode"
+    },
+    "openrouter-free": {
+      "provider": "openrouter",
+      "model": "openrouter/free",
+      "enabled": true,
+      "free": true,
+      "input": 0,
+      "output": 0,
+      "access": "zero-priced inference; router chooses actual free model; shared/none mode"
+    },
+    "minimax-m3.1-flash": {
+      "provider": "minimax",
+      "model": "MiniMax-M3.1-Flash",
+      "enabled": true,
+      "input": 0.15,
+      "output": 0.6,
+      "cached_input": 0.015,
+      "access": "paid; shared/none mode"
+    },
+    "minimax-m3": {
+      "provider": "minimax",
+      "model": "MiniMax-M3",
+      "enabled": false,
+      "input": 0.3,
+      "output": 1.2,
+      "cached_input": 0.06,
+      "access": "paid; shared/none mode"
+    },
+    "huggingface-qwen3": {
+      "provider": "huggingface",
+      "model": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+      "enabled": false,
+      "input": null,
+      "output": null,
+      "access": "account-dependent credits/paid backend; pricing unknown; shared/none mode"
+    }
+  }
+}
