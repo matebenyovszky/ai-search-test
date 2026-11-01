@@ -73,14 +73,39 @@ runs on several real stories, including same-day cases, before changing models.
 When a provider returns opaque grounding redirects, direct primary links in the
 article are recorded separately as hints; a reviewer must still check the source.
 
-Three modes measure different capabilities; compare results within the same mode.
+Five modes measure different capabilities; compare results within the same mode.
 Use --suite general for shared/none scenarios from queries.json:
 
 | Mode | What it measures | Providers |
 | --- | --- | --- |
 | native (default) | Each model's own research plus writing | Google, OpenAI, Anthropic, Perplexity, xAI |
+| agent | The model chooses live search queries and source pages through a bounded search/fetch loop | All |
+| agent-google | Model-directed research with paid Gemini 3.5 Flash-Lite / Google Search lookups; all lookup costs included | All |
 | shared | Writing from identical retrieved evidence | All |
 | none | Writing, translation or extraction from supplied input; no search claim | All |
+
+Agent mode supports models without a provider-native browser. It is a separate
+research setup, not supplied-evidence writing: the model chooses each search
+query, receives live DuckDuckGo results, requests pages, and then writes the
+article. Up to six inference turns are allowed; every turn's input, output and
+thinking usage is included in total cost. Search/fetch have no API charge here.
+Tool results and source text are recorded. Only public URLs returned by search
+can be fetched. A final answer without observed search and successful page
+reading does not qualify. This additional orchestration would need to be added
+to production before an agent-mode winner could replace a native-search model.
+
+If free retrieval is unavailable, agent-google provides a separate measured
+alternative. It returns sources only from observed Google grounding metadata,
+not from model-invented search links. The selected writer still decides the
+queries and pages. Every lookup's tokens and search queries are added to the
+writer's cost. This mode cannot be combined with --free-only: even a free Gemma
+writer has paid retrieval in that setup. Retrieval failures remain distinct from
+model quality, and an unobserved search is not counted as successful research.
+
+~~~sh
+python aisearchtest.py --search-mode agent --free-only --case-id crowdbricks-batching-typo --languages en-us,hu --max-calls 8 --run
+python aisearchtest.py --search-mode agent --models minimax-m3.1-flash --case-id motionbricks-release-typo --languages en-us,hu --run
+~~~
 
 Shared mode retrieves five DuckDuckGo snippets once per scenario via ddgs and
 supplies identical evidence to every model and repeat. Snippets are not full-page
@@ -117,15 +142,18 @@ The [AgentHatchery Hermes provider reference](https://github.com/agenthatchery/h
 helped identify compatible endpoints. Free access has different meanings:
 
 - **OpenRouter :free / openrouter/free:** zero-priced inference with limits.
-  Strict --free-only selects only these, disables paid search plugins and paid
+  Strict --free-only permits these, disables paid search plugins and paid
   model fallbacks, and sets zero maximum token prices. The free router can choose
   different free models; the returned model ID is recorded.
+- **Gemma 4 31B / 26B A4B via Google's Gemini Developer API:** the documented
+  offering is free-only with quotas, without native Google Search. These exact
+  IDs are allowed by strict --free-only; use agent mode for live research.
 - **Google and Groq:** free quotas may exist, but the same endpoints can bill
   paid usage. They are excluded from strict --free-only.
 - **Cerebras and Hugging Face:** account-specific quotas or trial credits may
   exist. Unknown prices remain unknown; these are excluded from --free-only.
 
-Models without a native search adapter require shared or none mode. The program
+Models without a native search adapter require agent, shared or none mode. The program
 does not silently add a paid search proxy to a free model.
 
 Perplexity now uses /v1/responses (Agent API alias), replacing the 2025 Sonar
@@ -136,7 +164,8 @@ incomplete rather than automatically continuing and spending more.
 
 ## Costs, limits and artifacts
 
-- Default maximum: six inference requests. Increase with --max-calls.
+- Default maximum: six comparisons. Increase with --max-calls. Native mode uses
+  one inference request per comparison; agent mode can use up to six.
 - --stop-after-usd (default $1) is a **soft stop between calls**, not a provider
   billing cap. One request can exceed it. Provider account limits impose hard
   spending caps. There are no automatic retries or model fallbacks.
@@ -161,7 +190,11 @@ Each run creates results/<Budapest timestamp>/:
   price snapshot, complete raw responses, checks, errors and usage. Saved after
   every call so later failures do not lose earlier work.
 - **results.xlsx:** Summary, complete Responses (split at Excel's cell limit),
-  and Offers (three cheapest numeric offers per model/scenario). Errors and
+  Research Review, Model Comparison, and Offers (three cheapest numeric offers
+  per model/scenario). Model Comparison separates attempts, missing credentials,
+  unknown costs and pending factual review. When combining runs, set each row's
+  `phase` to keep setup diagnostics separate from corrected screening results;
+  comparisons group by model, mode and phase. Errors and
   unknown costs stay visible. Costs are per request, not per offer.
 
 Use --output-dir, --no-excel and --seed to customize artifacts and ordering.

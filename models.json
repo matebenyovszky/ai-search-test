@@ -15,7 +15,8 @@
     "openrouter": "https://openrouter.ai/collections/free-models",
     "minimax": "https://platform.minimax.io/docs/pricing/overview",
     "huggingface": "https://huggingface.co/docs/inference-providers/pricing",
-    "provider_reference": "https://github.com/agenthatchery/hermes-agent/blob/main/website/docs/integrations/providers.md"
+    "provider_reference": "https://github.com/agenthatchery/hermes-agent/blob/main/website/docs/integrations/providers.md",
+    "gemma": "https://ai.google.dev/gemma/docs/core/gemma_on_gemini_api"
   },
   "models": {
     "gemini-2.5-pro": {
@@ -272,6 +273,35 @@
       "input": null,
       "output": null,
       "access": "account-dependent credits/paid backend; pricing unknown; shared/none mode"
+    },
+    "gemma-4-31b-it": {
+      "provider": "google",
+      "model": "gemma-4-31b-it",
+      "enabled": false,
+      "free": true,
+      "input": 0,
+      "output": 0,
+      "native_search": false,
+      "access": "free Gemini Developer API only; model-directed agent search required for article tests"
+    },
+    "gemma-4-26b-a4b-it": {
+      "provider": "google",
+      "model": "gemma-4-26b-a4b-it",
+      "enabled": false,
+      "free": true,
+      "input": 0,
+      "output": 0,
+      "native_search": false,
+      "access": "free Gemini Developer API only; model-directed agent search required for article tests"
+    },
+    "minimax-m2.5": {
+      "provider": "minimax",
+      "model": "MiniMax-M2.5",
+      "enabled": false,
+      "input": 0.3,
+      "output": 1.2,
+      "cached_input": 0.03,
+      "access": "paid; RoboHorizon auxiliary baseline; agent search supported"
     }
   }
 }

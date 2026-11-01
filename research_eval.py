@@ -76,12 +76,14 @@ def assess(query, result):
             article_links.append(url)
     usage = result.get('usage', {})
     searched = (usage.get('search_count') or 0) > 0
-    if result.get('mode') != 'native':
+    if result.get('mode') not in ('native','agent','agent-google'):
         gate = 'ineligible_no_native_research'
     elif result.get('status') != 'complete':
         gate = 'ineligible_incomplete_or_failed'
     elif not searched:
         gate = 'unverified_search_not_observed'
+    elif result.get('mode') in ('agent','agent-google') and not usage.get('fetch_count'):
+        gate = 'unverified_source_not_read'
     elif not (matches or (article_links and returned)) or (keyword_hints and not all(keyword_hints)):
         gate = 'unverified_target_or_primary_source'
     else:

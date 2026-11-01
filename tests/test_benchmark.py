@@ -25,7 +25,7 @@ def test_import_and_dry_run_need_no_keys(tmp_path, capsys):
 def test_free_selection_does_not_include_free_quota_or_paid_models():
     reg = b.load_models(b.ROOT/'models.json')
     chosen = b.select_models(reg, mode='shared', free_only=True)
-    assert list(chosen) == ['openrouter-free']
+    assert set(chosen) == {'openrouter-free','gemma-4-31b-it','gemma-4-26b-a4b-it'}
     assert not b.select_models(reg, mode='native', free_only=True)
 
 
@@ -200,3 +200,39 @@ def test_error_diagnostics_classify_billing_without_leaking_body():
         b.request_json('https://api.example.test', 'SECRET-DO-NOT-PRINT', {'model': 'test'})
     assert 'credit/billing issue' in str(exc.value)
     assert 'SECRET-DO-NOT-PRINT' not in str(exc.value)
+
+
+def test_paid_lookup_cannot_be_misrepresented_as_free():
+    with pytest.raises(SystemExit) as exc:
+        b.main(['--free-only','--search-mode','agent-google'])
+    assert exc.value.code==2
+
+
+def test_google_lookup_uses_observed_grounding_not_model_invented_links():
+    raw={'usageMetadata':{'promptTokenCount':10,'candidatesTokenCount':20},
+         'candidates':[{'groundingMetadata':{'webSearchQueries':['q'],
+          'groundingChunks':[{'web':{'uri':'https://example.org/source','title':'Source'}}],
+          'groundingSupports':[{'groundingChunkIndices':[0],'segment':{'text':'Verified source statement'}}]}}]}
+    with patch.object(b,'invoke',return_value=(raw,'unverified invented URL: https://fake.example','complete')) as invoke:
+        result=b.google_lookup('noisy keywords',5)
+    assert result['results']==[{'url':'https://example.org/source','title':'Source','text':'Verified source statement'}]
+    assert 'Do not return JSON' in invoke.call_args.args[1]
+    assert result['usage']['search_count']==1
+
+
+def test_excel_keeps_diagnostic_phases_apart_and_free_zero_distinct_from_unknown(tmp_path):
+    from openpyxl import load_workbook
+    rows=[{'model':'same','query_id':'q','mode':'agent','phase':phase,'status':status,'usage':usage}
+          for phase,status,usage in [('screening','complete',{'total_usd':0}),
+                                    ('diagnostic','error',{'total_usd':None,'known_cost_usd':0.02}),
+                                    ('unavailable','not_run',{'total_usd':None})]]
+    path=tmp_path/'phases.xlsx'
+    b.excel_export(path,rows)
+    wb=load_workbook(path)
+    comparison=list(wb['Model Comparison'].values)
+    assert len(comparison)==4
+    groups={r[-1]:dict(zip(comparison[0],r)) for r in comparison[1:]}
+    assert groups['screening']['mean_fully_priced_USD']==0
+    assert groups['diagnostic']['unknown_cost_attempts']==1
+    assert groups['diagnostic']['known_lower_bound_USD']==0.02
+    assert groups['unavailable']['known_lower_bound_USD'] is None
